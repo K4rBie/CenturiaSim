@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/">
+        <file>images/ground.png</file>
+        <file>images/legionary.svg</file>
+        <file>images/line_button.svg</file>
+        <file>images/square_button.svg</file>
+        <file>images/testudo_button.svg</file>
+    </qresource>
+</RCC>

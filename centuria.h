@@ -11,23 +11,21 @@
 class Centuria
 {
 public:
-    Centuria(vec_PhysicalObject_shptr_cstref t_inanimate_objects,
-             vec_Soldier_shptr_cstref t_soldiers);
+    Centuria(flist_PhysicalObject_ptr_cstref t_inanimate_objects,
+             flist_Soldier_ptr_cstref t_soldiers);
 
-    void Step();
-
+    void step();
     const Formation& formation() const;
     void formation(const Formation& new_formation);
-
-    std::vector<Contubernium> contubernia{ 10 , Contubernium{m_inanimate_objects, m_soldiers}};
+    const std::vector<Contubernium>& contubernia() const;
 
 private:
-    // to świetna okazja żeby zastosować templatki bo masz kilka typów, które robią to samo, przesyłają polecenie niżej
-    void SendOrdersDown(std::vector<Contubernium> &units);
-    void SendOrdersDown();
+    void sendOrdersDown();
     enum Formation m_formation;
-    vec_Soldier_shptr_cstref m_soldiers;
-    vec_PhysicalObject_shptr_cstref m_inanimate_objects;
+    flist_Soldier_ptr_cstref m_soldiers;
+    flist_PhysicalObject_ptr_cstref m_inanimate_objects;
+    std::vector<Contubernium> m_contubernia{ 10 , Contubernium{m_inanimate_objects, m_soldiers}};
+
 };
 
 #endif // CENTURIA_H

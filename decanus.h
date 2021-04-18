@@ -12,23 +12,22 @@
 class Decanus : public Soldier
 {
 public:
-    Decanus(std::vector<std::shared_ptr<Legionary>> t_subordinates,
+    Decanus(std::forward_list<std::shared_ptr<Legionary>> t_subordinates,
             Position t_start_position,
-            double t_radius,
-            vec_PhysicalObject_shptr_cstref t_nearby_objects,
-            vec_PhysicalObject_shptr_cstref t_nearby_soldiers)
-        : Soldier(t_start_position, t_radius, t_nearby_objects, t_nearby_soldiers),
-          m_subordinates(t_subordinates){};
+            flist_PhysicalObject_ptr_cstref t_nearby_objects,
+            flist_PhysicalObject_ptr_cstref t_nearby_soldiers)
+            : Soldier(t_start_position, 10.f, t_nearby_objects, t_nearby_soldiers),
+            m_subordinates(t_subordinates){};
 
-    Decanus(std::vector<std::shared_ptr<Legionary>> t_subordinates,
-            vec_PhysicalObject_shptr_cstref t_nearby_objects,
-            vec_PhysicalObject_shptr_cstref t_nearby_soldiers)
-        : Soldier(Position{}, 2.f, t_nearby_objects, t_nearby_soldiers),
-          m_subordinates(t_subordinates){};
+    Decanus(std::forward_list<std::shared_ptr<Legionary>> t_subordinates,
+            flist_PhysicalObject_ptr_cstref t_nearby_objects,
+            flist_PhysicalObject_ptr_cstref t_nearby_soldiers)
+            : Soldier(Position{}, 10.f, t_nearby_objects, t_nearby_soldiers),
+            m_subordinates(t_subordinates){};
 
-    void Step();
+    void step();
 
-    void formation(const Formation &newFormation);
+    void formation(const Formation &new_formation);
     const Formation& formation() const;
 
     void giveOrders();
@@ -38,8 +37,8 @@ public:
 private:
     Decanus(); //should stay without definition
 
-    std::vector<std::shared_ptr<Legionary>> m_subordinates;
-    Formation m_formation {Formation(Square)};
+    std::forward_list<std::shared_ptr<Legionary>> m_subordinates;
+    Formation m_formation {Formation(SQUARE)};
 };
 
 #endif // DECANUS_H

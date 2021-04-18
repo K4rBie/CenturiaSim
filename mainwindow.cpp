@@ -7,7 +7,15 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     scene = new QGraphicsScene(this);
-    scene->setSceneRect(-250, -300, 500, 600);
+
+
+
+
+    ui->graphicsView->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform | QPainter::HighQualityAntialiasing);
+    ui->graphicsView->setScene(scene);
+
+    simulation.Start(1000);
+
 }
 
 MainWindow::~MainWindow()

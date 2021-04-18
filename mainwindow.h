@@ -3,6 +3,9 @@
 
 #include <QMainWindow>
 #include <QGraphicsScene>
+#include <vector>
+#include <memory>
+#include <iostream>
 
 #include "simulation.h"
 
@@ -19,8 +22,9 @@ public:
     ~MainWindow();
 
 private:
+
     Ui::MainWindow *ui;
     QGraphicsScene *scene;
-    Simulation simulation{};
+
 };
 #endif // MAINWINDOW_H

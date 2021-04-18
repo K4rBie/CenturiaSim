@@ -1,10 +1,5 @@
 #include "position.h"
 
-Position::Position()
-{
-
-}
-
 Position Position::operator-(const Position &b) const
 {
     Position c;
@@ -32,8 +27,10 @@ bool Position::operator==(const Position &b) const
 
 Position Position::getUnitVector(Position &vector)
 {
-    Position unit;
+    Position unit {0,0};
     double length = vector.length();
+
+    if (length == 0) return unit; // tymczasowo bo dizelenie przez zero, potem jeszcze ruch będzie w złym kierunku
 
     unit.m_x = vector.m_x / length;
     unit.m_y = vector.m_y / length;

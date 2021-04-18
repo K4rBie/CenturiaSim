@@ -1,11 +1,9 @@
 #include "legionary.h"
 
-void Legionary::Step()
+///
+/// \brief Make a next step of simulation.
+///
+void Legionary::step()
 {
     this->move();
-}
-
-Position Legionary::TargetPosition()
-{
-
 }

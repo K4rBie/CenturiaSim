@@ -8,7 +8,7 @@ class WaterPond : public PhysicalObject
 public:
     WaterPond(Position t_start_position, double t_radius)
         : PhysicalObject(t_start_position, t_radius){};
-    void Step(){};
+    void step(){};
 };
 
 #endif // WATERPOND_H

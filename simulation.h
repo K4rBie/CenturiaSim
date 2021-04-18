@@ -2,6 +2,7 @@
 #define SIMULATION_H
 
 #include <vector>
+#include <deque>
 #include <memory>
 
 #include "centuria.h"
@@ -13,24 +14,27 @@ class Simulation
 {
 public:
     Simulation();
-    void Start(int interval);
+    void start(int interval);
     void ChangeFormation(const enum Formation& new_formation);
+
+    const std::forward_list<std::shared_ptr<Soldier>>& soldiers();
 
 private:
     void Step();
     Timer simulation_timer{};
+
+    std::forward_list<std::shared_ptr<Soldier>> m_soldiers{};
+    std::forward_list<std::shared_ptr<PhysicalObject>> m_inanimate_objects{};
+
     Centuria centuria{m_inanimate_objects, m_soldiers};
     DrillField drillfield{};
 
-    std::vector<std::shared_ptr<Soldier>> m_soldiers;
-    std::vector<std::shared_ptr<PhysicalObject>> m_inanimate_objects;
+    //std::vector<std::shared_ptr<Soldier>> initializeSoldiersVector();
+    void initializeInanimateObjectsVector();
 
-    std::vector<std::shared_ptr<Soldier>> initializeSoldiersVector();
-    std::vector<std::shared_ptr<PhysicalObject> > initializeInanimateObjectsVector();
-
-    const std::vector<std::shared_ptr<Tree>>& m_trees;
-    const std::vector<std::shared_ptr<Boulder>>& m_boulders;
-    const std::vector<std::shared_ptr<WaterPond>>& m_waterponds;
+    const std::forward_list<std::shared_ptr<Tree>>& m_trees;
+    const std::forward_list<std::shared_ptr<Boulder>>& m_boulders;
+    const std::forward_list<std::shared_ptr<WaterPond>>& m_waterponds;
 
 
     // wektor wskaźników na pozycje
@@ -39,6 +43,7 @@ private:
 
 
     void makedict();
+    void initializeSoldiersVector();
 };
 
 #endif // SIMULATION_H

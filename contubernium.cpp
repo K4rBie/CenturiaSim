@@ -1,20 +1,34 @@
 #include "contubernium.h"
 
-Contubernium::Contubernium(vec_PhysicalObject_shptr_cstref t_inanimate_objects, vec_Soldier_shptr_cstref t_soldiers) :
-    m_inanimate_objects(t_inanimate_objects), m_soldiers(t_soldiers)
+///
+/// \brief Contubernium::Contubernium
+/// \param t_inanimate_objects all static objects of the simulation.
+/// \param t_soldiers all moving objects, only Legionaries and Decani at this point.
+///
+Contubernium::Contubernium(flist_PhysicalObject_ptr_cstref t_inanimate_objects, flist_Soldier_ptr_cstref t_soldiers)
+                          : m_inanimate_objects (t_inanimate_objects), m_soldiers (t_soldiers)
 {
+    legionaries = { 7, std::shared_ptr<Legionary> {
+            new Legionary(m_inanimate_objects, flist_PhysicalObject_ptr_cstref(m_soldiers))}
+    };
 
+    decanus = std::shared_ptr<Decanus> {
+            new Decanus(legionaries, m_inanimate_objects, flist_PhysicalObject_ptr_cstref(m_soldiers))
+    };
 }
 
-void Contubernium::Step()
+///
+/// \brief Make a next step of simulation.
+///
+void Contubernium::step()
 {
-    decanus->Step();
+    decanus->step();
     std::for_each(legionaries.begin(), legionaries.end(), [](std::shared_ptr<Legionary> legionary) {
-        legionary->Step();
+        legionary->step();
     });
 }
 
-void Contubernium::SendOrdersDown(const enum Formation &new_formation)
+void Contubernium::sendOrdersDown(const enum Formation &new_formation)
 {
     decanus->formation(new_formation);
 }

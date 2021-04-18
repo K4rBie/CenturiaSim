@@ -1,16 +1,27 @@
 #include "decanus.h"
 
-void Decanus::Step()
+///
+/// \brief Make a next step of simulation.
+///
+void Decanus::step()
 {
     giveOrders();
     move();
 }
 
-void Decanus::formation(const enum Formation& newFormation)
+///
+/// \brief Set new formation for Decanus.
+/// \param new_formation New formation.
+///
+void Decanus::formation(const enum Formation& new_formation)
 {
-    m_formation = newFormation;
+    m_formation = new_formation;
 }
 
+///
+/// \brief Get actual formation that Decanus tries to achieve.
+/// \return Formation
+///
 const Formation &Decanus::formation() const
 {
     return m_formation;
@@ -19,13 +30,13 @@ const Formation &Decanus::formation() const
 void Decanus::giveOrders(){
 
     switch (m_formation) {
-        case Line:
+        case LINE:
             sendLineFormationOrders();
         break;
-        case Square:
+        case SQUARE:
             sendSquareFormationOrders();
         break;
-        case Testudo:
+        case TESTUDO:
             sendTestudoFormationOrders();
         break;
     }
@@ -37,12 +48,12 @@ void Decanus::sendLineFormationOrders(){
     //double y_offset = 30;
 
     Position new_target_position;
-    unsigned long n;
+    unsigned long n = 0;
 
-    for (unsigned long i = 0; i < m_subordinates.size(); i++) {
-        n = i + 1;
+    for (const auto& subordinate : m_subordinates) {
+        n++;
         new_target_position = base + Position{n * x_offset, 0};
-        m_subordinates.at(i)->targetPosition(new_target_position);
+        subordinate->targetPosition(new_target_position);
     }
 }
 
@@ -57,10 +68,11 @@ void Decanus::sendTestudoFormationOrders(){
     Position offset;
     unsigned long n = -1;
 
-    for (unsigned long i = 0; i < m_subordinates.size(); i++) {
+
+    for (const auto& subordinate : m_subordinates) {
         n++;
 
-        if (i < 3) {
+        if (n < 3) {
             offset = Position{n * x_offset, 0};
         } else {
             if (n == 5) {
@@ -70,8 +82,9 @@ void Decanus::sendTestudoFormationOrders(){
         }
 
 
-        m_subordinates.at(i)->targetPosition(base + offset);
+        subordinate->targetPosition(base + offset);
     }
+
 }
 
 void Decanus::sendSquareFormationOrders(){
@@ -85,10 +98,10 @@ void Decanus::sendSquareFormationOrders(){
     Position offset;
     unsigned long n = -1;
 
-    for (unsigned long i = 0; i < m_subordinates.size(); i++) {
+    for (const auto& subordinate : m_subordinates) {
         n++;
 
-        if (i < 3) {
+        if (n < 3) {
             offset = Position{n * x_offset, 0};
         } else {
             if (n == 5) {
@@ -98,6 +111,6 @@ void Decanus::sendSquareFormationOrders(){
         }
 
 
-        m_subordinates.at(i)->targetPosition(base + offset);
+        subordinate->targetPosition(base + offset);
     }
 }

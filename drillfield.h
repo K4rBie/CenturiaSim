@@ -11,21 +11,20 @@ class DrillField
 {
 public:
     DrillField();
-    const std::vector<std::shared_ptr<Tree>>& trees() const;
-    const std::vector<std::shared_ptr<Boulder>>& boulders() const;
-    const std::vector<std::shared_ptr<WaterPond>>& waterponds() const;
-    const std::vector<std::shared_ptr<PhysicalObject>>& inanimateObjects() const;
-    void Step();
+    const std::forward_list<std::shared_ptr<Tree>>& trees() const;
+    const std::forward_list<std::shared_ptr<Boulder>>& boulders() const;
+    const std::forward_list<std::shared_ptr<WaterPond>>& waterponds() const;
+    void step();
 
 private:
     double length = 600;
     double width = 800;
 
-    std::vector<std::shared_ptr<Tree>> m_trees {};
-    std::vector<std::shared_ptr<Boulder>> m_boulders {};
-    std::vector<std::shared_ptr<WaterPond>> m_waterponds {};
+    std::forward_list<std::shared_ptr<Tree>> m_trees {};
+    std::forward_list<std::shared_ptr<Boulder>> m_boulders {};
+    std::forward_list<std::shared_ptr<WaterPond>> m_waterponds {};
 
-    friend class Simulation;
+    friend class Simulation; // potrzebne?
 
 };
 

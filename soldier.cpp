@@ -1,8 +1,8 @@
 #include "soldier.h"
 
-Position Soldier::targetPosition()
+const Position &Soldier::targetPosition()
 {
-
+    return m_target_position;
 }
 
 void Soldier::targetPosition(const Position &new_target)
@@ -22,7 +22,7 @@ void Soldier::targetPosition(const Position &new_target)
     // kiedyśtam dodam tutaj większą logikę przesuwania targetu aż coś znajdzie dla siebie
 }
 
-void Soldier::Step()
+void Soldier::step()
 {
     move();
 }
@@ -32,8 +32,17 @@ Position Soldier::move()
     // nie rusza dalej, gdy znajdzie się za blisko jakiegoś obiektu. Powinien to samo robić dla żołnierzy,
     // a nawet najlepiej, jakby to była jedna wspólny wektor
     Position direction = m_target_position - m_actual_position;
-    Position next_step = Position::getUnitVector(direction) * speed;
-    Position new_position = m_actual_position + next_step;
+
+    Position new_position;
+
+    if (direction.length() <= speed) {
+        new_position = m_actual_position + direction;
+    } else {
+        Position next_step = Position::getUnitVector(direction) * speed;
+        new_position = m_actual_position + next_step;
+    }
+
+
 
 //    if (isValidPosition(new_position))
 //    {
@@ -49,7 +58,7 @@ Position Soldier::move()
 }
 
 bool Soldier::isValidPosition(const Position& position) {
-    for(auto& obj_ptr : m_nearby_objects){
+    for(const auto& obj_ptr : m_nearby_objects){
         // spr czy wchodzi na inny obiekt, jak nie, to wszystko spoko i przepuszczaj
         Position difference = obj_ptr->actualPosition() - position;
         double distance = difference.length();
@@ -62,23 +71,23 @@ bool Soldier::isValidPosition(const Position& position) {
         }
     }
 
-    for(auto& obj_ptr : m_nearby_soldiers){
-        // spr czy wchodzi na inny obiekt, jak nie, to wszystko spoko i przepuszczaj
-        Position difference = obj_ptr->actualPosition() - position;
-        double distance = difference.length();
+//    for(auto& obj_ptr : m_nearby_soldiers){
+//        // spr czy wchodzi na inny obiekt, jak nie, to wszystko spoko i przepuszczaj
+//        Position difference = obj_ptr->actualPosition() - position;
+//        double distance = difference.length();
 
-        double minimal_distance = obj_ptr->radius() + this->radius();
+//        double minimal_distance = obj_ptr->radius() + this->radius();
 
-        // zatrzymaj się i czekaj
-        if (distance < minimal_distance) {
-            return false;
-        }
-    }
+//        // zatrzymaj się i czekaj
+//        if (distance < minimal_distance) {
+//            return false;
+//        }
+//    }
 
     return true;
 }
 
-bool Soldier::isValidPosition(const Position& position, vec_PhysicalObject_shptr_cstref objects) {
+bool Soldier::isValidPosition(const Position& position, flist_PhysicalObject_ptr_cstref objects) {
     for(auto& obj_ptr : objects){
         // spr czy wchodzi na inny obiekt, jak nie, to wszystko spoko i przepuszczaj
         Position difference = obj_ptr->actualPosition() - position;

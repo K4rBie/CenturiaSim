@@ -9,7 +9,7 @@ public:
     Tree(Position t_start_position, double t_radius)
         : PhysicalObject(t_start_position, t_radius){};
     Tree();
-    void Step(){};
+    void step(){};
 };
 
 #endif // TREE_H

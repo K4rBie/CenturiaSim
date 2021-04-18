@@ -5,6 +5,7 @@
 #include "legionary.h"
 #include "formationenum.h"
 #include <vector>
+#include <deque>
 #include <memory>
 #include <algorithm>
 
@@ -12,21 +13,18 @@
 class Contubernium
 {
 public:
-    Contubernium(vec_PhysicalObject_shptr_cstref t_inanimate_objects,
-                 vec_Soldier_shptr_cstref t_soldiers);
-    void Step();
-    void SendOrdersDown(const Formation &new_formation);
+    Contubernium(flist_PhysicalObject_ptr_cstref t_inanimate_objects,
+                 flist_Soldier_ptr_cstref t_soldiers);
 
-    std::vector<std::shared_ptr<Legionary>> legionaries{
-        7,
-        std::shared_ptr<Legionary>{new Legionary(m_inanimate_objects, vec_PhysicalObject_shptr_cstref(m_soldiers))}
-    };
+    void step();
+    void sendOrdersDown(const Formation &new_formation);
 
-    std::shared_ptr<Decanus> decanus { new Decanus(legionaries, m_inanimate_objects, vec_PhysicalObject_shptr_cstref(m_soldiers))};
+    std::forward_list<std::shared_ptr<Legionary>> legionaries;
+    std::shared_ptr<Decanus> decanus;
 
 private:
-    vec_PhysicalObject_shptr_cstref m_inanimate_objects;
-    vec_Soldier_shptr_cstref m_soldiers;
+    flist_PhysicalObject_ptr_cstref m_inanimate_objects;
+    flist_Soldier_ptr_cstref m_soldiers;
 };
 
 #endif // CONTUBERNIUM_H
