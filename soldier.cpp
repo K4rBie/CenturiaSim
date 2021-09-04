@@ -1,27 +1,75 @@
 #include "soldier.h"
 
+///
+/// \brief Number of Soldier objects created.
+///
+int Soldier::count = 0;
+
+///
+/// \brief Soldier::Soldier
+/// \param t_start_position            Position on the field legionary is initially placed
+/// \param t_radius                    Sheer size of that chungus
+/// \param t_nearby_objects            Static objects (list of)
+/// \param t_nearby_soldiers           All soldiers really
+///
+Soldier::Soldier(Position t_start_position, double t_radius, flist_PhysicalObject_ptr_cstref t_nearby_objects, flist_PhysicalObject_ptr_cstref t_nearby_soldiers)
+                : PhysicalObject(t_start_position, t_radius),
+                m_nearby_objects(t_nearby_objects),
+                m_nearby_soldiers(t_nearby_soldiers)
+{
+    count++;
+    double x_pos = (count % 10)*m_radius*4;
+    double y_pos = std::ceil(count/10)*m_radius*4;
+    m_actual_position = Position{x_pos, y_pos};
+
+}
+
+
+///
+/// \brief Soldier::Soldier
+/// \param t_nearby_objects         Static objects (list of)
+/// \param t_nearby_soldiers        All soldiers really
+///
+Soldier::Soldier(flist_PhysicalObject_ptr_cstref t_nearby_objects, flist_PhysicalObject_ptr_cstref t_nearby_soldiers)
+    : PhysicalObject(Position{}, 10.f),
+    m_nearby_objects(t_nearby_objects),
+    m_nearby_soldiers(t_nearby_soldiers)
+{
+    count++;
+    double x_pos = (count % 10)*m_radius*2;
+    double y_pos = std::ceil(count/10)*m_radius*2;
+    m_actual_position = Position{x_pos, y_pos};
+
+};
+
+
+///
+/// \brief target Position getter
+/// \return gets target Position
+///
 const Position &Soldier::targetPosition()
 {
     return m_target_position;
 }
 
+///
+/// \brief Target Position setter.
+/// \param new_target                 new target Position
+///
 void Soldier::targetPosition(const Position &new_target)
 {
     // widzę to tak:
     // legionista sam sobie nie wybiera docelowej pozycji, robi to za niego dowódca.
     // legionista tylko czyta tę pozycję i się nią "inspiruje" tzn w funkcji move – może powinienem
     // nazwać ją movement_action? – dzieje się wiele rzeczy, które zakłócają ten cel
-    // na razie nie będę bawił się w żadne path findingi. Robią linię prostą, a jak nie to się zatrzymują.
 
-    // dodam tylko że jednak warto od razu zmieniać ten target position w osiągalny.
-    // obiekty statyczne się nie ruszają, więc można je przeanalizować tylko raz, czyli tutaj.
-    // jeśli target position nachodzi na obiekt, to przesuń target position na granicę obiektu.
-
-    if (new_target == m_target_position)
-    m_target_position = isValidPosition(new_target, m_nearby_objects) ? new_target : m_target_position;
+    m_target_position = new_target;
     // kiedyśtam dodam tutaj większą logikę przesuwania targetu aż coś znajdzie dla siebie
 }
 
+///
+/// \brief Soldier simulation step.
+///
 void Soldier::step()
 {
     move();
@@ -38,7 +86,7 @@ Position Soldier::move()
     if (direction.length() <= speed) {
         new_position = m_actual_position + direction;
     } else {
-        Position next_step = Position::getUnitVector(direction) * speed;
+        Position next_step = Position::normalize(direction) * speed;
         new_position = m_actual_position + next_step;
     }
 
@@ -102,5 +150,18 @@ bool Soldier::isValidPosition(const Position& position, flist_PhysicalObject_ptr
     }
 
     return true;
+}
+
+Position Soldier::hateOthers(const Soldier &soldier, double hateFromDistance, double hateUpClose)
+{
+    Position distance = soldier.actualPosition() - actualPosition();
+    double s = distance.length();
+//    if (s > epsilon && s < bugged) {
+//        if (s > margin)   s_force = 1000/s;
+//        else              s_force = 50000/s;
+
+//        x_force -= distance.m_x/s * s_force;
+//        y_force -= distance.m_y/s * s_force;
+//    }
 }
 

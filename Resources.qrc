@@ -5,5 +5,8 @@
         <file>images/line_button.svg</file>
         <file>images/square_button.svg</file>
         <file>images/testudo_button.svg</file>
+        <file>images/decanus.svg</file>
+        <file>images/start_button.svg</file>
+        <file>images/stop_button.svg</file>
     </qresource>
 </RCC>

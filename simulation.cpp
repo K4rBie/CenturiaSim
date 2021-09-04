@@ -1,5 +1,9 @@
 #include "simulation.h"
+#include "iostream"
 
+///
+/// \brief Default ctor. (links objects owned by centuria and drillfield in order to flatten the structure)
+///
 Simulation::Simulation() :
     m_trees(drillfield.trees()), m_boulders(drillfield.boulders()), m_waterponds(drillfield.waterponds()){
 
@@ -11,11 +15,12 @@ Simulation::Simulation() :
 void Simulation::initializeSoldiersVector() {
     //m_soldiers.reserve(80);
 
-    for (auto& contubernium : centuria.m_contubernia){
-        for (auto& legionary : contubernium.legionaries){
-            m_soldiers.push_front(legionary);
+    for (const auto& contubernium : m_centuria.contubernia()){
+        for (const auto& legionary : contubernium.Legionaries()){
+            auto legio = std::shared_ptr<Legionary>(legionary);
+            m_soldiers.push_front(legio);
         }
-        m_soldiers.push_front(contubernium.decanus);
+        m_soldiers.push_front(contubernium.decanus());
     }
 }
 
@@ -38,23 +43,66 @@ void Simulation::initializeInanimateObjectsVector()
 
 }
 
+///
+/// \brief Starts simulation
+/// \param interval of the simulation (time between ticks)
+///
 void Simulation::start(int interval)
 {
-    simulation_timer.setInterval([=](){this->Step();}, interval);
+    if (!running) {
+        simulation_timer.setInterval([=](){this->step();}, interval);
+        running = true;
+    }
 }
 
-void Simulation::Step() {
-    centuria.step();
+void Simulation::stop()
+{
+    if (running) {
+        simulation_timer.stop();
+        running = false;
+    }
+}
+
+void Simulation::step() {
+    m_centuria.step();
+//    for (auto& contubernium : m_centuria.contubernia()){
+//        for (auto& legionary : contubernium.legionaries){
+//            std::cout << legionary.get()->actualPosition().m_x;
+//        }
+//        m_soldiers.push_front(contubernium.decanus);
+//    }
     drillfield.step();
 }
 
-void Simulation::ChangeFormation(const enum Formation &new_formation) {
-    centuria.formation(new_formation);
+///
+/// \brief Order the simulated centuria to change Formation
+/// \param new formation to be used
+///
+void Simulation::changeFormation(const enum Formation &new_formation) {
+    m_centuria.formation(new_formation);
 }
 
+void Simulation::moveCenturia(const Position &requested_position)
+{
+    m_centuria.center(requested_position);
+}
+
+///
+/// \brief soldiers getter
+/// \return gets all soldiers generated in the centuria
+///
 const std::forward_list<std::shared_ptr<Soldier> > &Simulation::soldiers()
 {
     return m_soldiers;
+}
+
+///
+/// \brief centuria getter
+/// \return gets centuria
+///
+const Centuria &Simulation::centuria()
+{
+    return m_centuria;
 }
 
 

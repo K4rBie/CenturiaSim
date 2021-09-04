@@ -1,0 +1,10 @@
+#ifndef FUNCTIONENUM_H
+#define FUNCTIONENUM_H
+
+
+enum Function {
+    FORM_LINE, FORM_SQUARE, FORM_TESTUDO, START_SIM, STOP_SIM
+};
+
+
+#endif // FUNCTIONENUM_H

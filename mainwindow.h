@@ -7,11 +7,12 @@
 #include <memory>
 #include <iostream>
 
-#include "simulation.h"
+#include "mainscene.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
+
 
 class MainWindow : public QMainWindow
 {
@@ -20,6 +21,7 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    //Simulation simulation;
 
 private:
 

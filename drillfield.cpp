@@ -1,8 +1,14 @@
 #include "drillfield.h"
 #include <iostream>
 
+
+DrillField::DrillField()
+{
+
+}
+
 ///
-/// \brief DrillField::trees
+/// \brief Get trees
 /// \return list of trees in the field.
 ///
 const std::forward_list<std::shared_ptr<Tree> > &DrillField::trees() const
@@ -11,7 +17,7 @@ const std::forward_list<std::shared_ptr<Tree> > &DrillField::trees() const
 }
 
 ///
-/// \brief DrillField::boulders
+/// \brief get boulders
 /// \return List of boulders in the field.
 ///
 const std::forward_list<std::shared_ptr<Boulder> > &DrillField::boulders() const
@@ -21,7 +27,7 @@ const std::forward_list<std::shared_ptr<Boulder> > &DrillField::boulders() const
 
 
 ///
-/// \brief DrillField::waterponds
+/// \brief get waterponds
 /// \return List of waterponds in the field.
 ///
 const std::forward_list<std::shared_ptr<WaterPond> > &DrillField::waterponds() const
@@ -30,7 +36,7 @@ const std::forward_list<std::shared_ptr<WaterPond> > &DrillField::waterponds() c
 }
 
 ///
-/// \brief DrillField::step In case any of the static objects somehow interacts with others.
+/// \brief In case any of the static objects somehow interacts with others. Trees talk, boulders tend to each other..
 ///
 void DrillField::step()
 {

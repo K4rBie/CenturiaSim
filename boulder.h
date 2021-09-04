@@ -3,12 +3,15 @@
 
 #include "physicalobject.h"
 
+/**
+ * @brief Class providing functions of boulder on the ground.
+ */
+
 class Boulder : public PhysicalObject
 {
 public:
-    Boulder(Position t_start_position, double t_radius)
-        : PhysicalObject(t_start_position, t_radius){};
-    void step(){};
+    Boulder(Position t_start_position, double t_radius);
+    void step();
 };
 
 #endif // BOULDER_H

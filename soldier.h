@@ -12,25 +12,22 @@
 using flist_PhysicalObject_ptr_cstref =
       const std::forward_list<std::shared_ptr<PhysicalObject>>&;
 
+
 class Soldier : public PhysicalObject
 {
 public:
     Soldier(Position t_start_position, double t_radius,
             flist_PhysicalObject_ptr_cstref t_nearby_objects,
-            flist_PhysicalObject_ptr_cstref t_nearby_soldiers)
-            : PhysicalObject(t_start_position, t_radius),
-            m_nearby_objects(t_nearby_objects),
-            m_nearby_soldiers(t_nearby_soldiers){};
+            flist_PhysicalObject_ptr_cstref t_nearby_soldiers);
 
     Soldier(flist_PhysicalObject_ptr_cstref t_nearby_objects,
-            flist_PhysicalObject_ptr_cstref t_nearby_soldiers)
-            : PhysicalObject(Position{}, 10.f),
-            m_nearby_objects(t_nearby_objects),
-            m_nearby_soldiers(t_nearby_soldiers){}; // no ogólnie spoko, ale może lepiej na to nie pozwalać?
+            flist_PhysicalObject_ptr_cstref t_nearby_soldiers);
+
 
     virtual const Position& targetPosition();
     virtual void targetPosition(const Position& new_target);
     virtual void step();
+    static int count;
 
 protected:
     virtual Position move();
@@ -41,9 +38,13 @@ protected:
     flist_PhysicalObject_ptr_cstref m_nearby_soldiers;
 
     Position m_target_position {};
-    double speed {1};
+    double speed {0.5};
+    Position speedvector{0,0};
 
 private:
+
+protected:
+    Position hateOthers(const Soldier& soldier, double hateFromDistance, double hateUpClose);
 
 };
 

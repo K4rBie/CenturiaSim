@@ -10,31 +10,37 @@
 #include "formationenum.h"
 #include "timer.h"
 
+
 class Simulation
 {
 public:
     Simulation();
     void start(int interval);
-    void ChangeFormation(const enum Formation& new_formation);
+    void stop();
+    void changeFormation(const enum Formation& new_formation);
+    void moveCenturia(const Position& requested_position);
 
     const std::forward_list<std::shared_ptr<Soldier>>& soldiers();
+    const Centuria& centuria();
 
 private:
-    void Step();
+    void step();
     Timer simulation_timer{};
 
     std::forward_list<std::shared_ptr<Soldier>> m_soldiers{};
     std::forward_list<std::shared_ptr<PhysicalObject>> m_inanimate_objects{};
 
-    Centuria centuria{m_inanimate_objects, m_soldiers};
     DrillField drillfield{};
+    Centuria m_centuria{m_inanimate_objects, m_soldiers};
 
-    //std::vector<std::shared_ptr<Soldier>> initializeSoldiersVector();
+    void initializeSoldiersVector();
     void initializeInanimateObjectsVector();
 
     const std::forward_list<std::shared_ptr<Tree>>& m_trees;
     const std::forward_list<std::shared_ptr<Boulder>>& m_boulders;
     const std::forward_list<std::shared_ptr<WaterPond>>& m_waterponds;
+
+    bool running{};
 
 
     // wektor wskaźników na pozycje
@@ -42,8 +48,8 @@ private:
 
 
 
-    void makedict();
-    void initializeSoldiersVector();
+    void makedict(); //unused?
+
 };
 
 #endif // SIMULATION_H
