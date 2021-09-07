@@ -4,6 +4,7 @@
 /// \brief Number of Soldier objects created.
 ///
 int Soldier::count = 0;
+Position Soldier::formationCenter{0,0};
 
 ///
 /// \brief Soldier::Soldier
@@ -17,11 +18,10 @@ Soldier::Soldier(Position t_start_position, double t_radius, flist_PhysicalObjec
                 m_nearby_objects(t_nearby_objects),
                 m_nearby_soldiers(t_nearby_soldiers)
 {
-    count++;
     double x_pos = (count % 10)*m_radius*4;
     double y_pos = std::ceil(count/10)*m_radius*4;
     m_actual_position = Position{x_pos, y_pos};
-
+    count++;
 }
 
 

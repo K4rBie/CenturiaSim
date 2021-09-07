@@ -5,7 +5,9 @@
 
 #include "position.h"
 
-
+///
+/// \brief Base object for every object in the simulation.
+///
 class PhysicalObject
 {
 public:

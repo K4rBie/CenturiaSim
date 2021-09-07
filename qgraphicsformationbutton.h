@@ -10,6 +10,9 @@
 
 class MainScene;
 
+///
+/// \brief Buttons for scene ui
+///
 class QGraphicsFormationButton : public QGraphicsSvgItem
 {
     Q_OBJECT
@@ -25,6 +28,7 @@ private:
     void mouseReleaseEvent();
     QSvgRenderer* iconRenderer;
     MainScene* m_parent;
+    QGraphicsView* m_viewport;
     QLatin1String m_icon_path{};
 
 

@@ -3,7 +3,9 @@
 
 #include <cmath>
 
-
+///
+/// \brief x,y coordinate position and operations.
+///
 class Position
 {
 public:

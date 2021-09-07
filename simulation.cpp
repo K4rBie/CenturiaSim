@@ -85,6 +85,7 @@ void Simulation::changeFormation(const enum Formation &new_formation) {
 void Simulation::moveCenturia(const Position &requested_position)
 {
     m_centuria.center(requested_position);
+    Soldier::formationCenter = requested_position;
 }
 
 ///

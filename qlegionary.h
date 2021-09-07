@@ -6,6 +6,9 @@
 #include <QGraphicsSvgItem>
 
 
+///
+/// \brief Graphical representation of a simulated legionary.
+///
 class QLegionary : public QGraphicsSvgItem
 {
     Q_OBJECT

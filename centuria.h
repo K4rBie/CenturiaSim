@@ -8,6 +8,9 @@
 #include "contubernium.h"
 #include "formationenum.h"
 
+/**
+ * @brief Part of simulation dealing with commanding and simulation troops.
+ */
 
 class Centuria
 {

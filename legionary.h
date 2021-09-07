@@ -4,7 +4,9 @@
 #include "soldier.h"
 #include "formationenum.h"
 
-
+///
+/// \brief Soldier in a centuria.
+///
 class Legionary : public Soldier
 {
 public:

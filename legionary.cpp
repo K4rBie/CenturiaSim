@@ -33,10 +33,10 @@ Position Legionary::move()
     double x_force = 0;
     double y_force = 0;
     double s_force = 0;
-    double epsilon = 1;
+    double epsilon = 0.1;
     double s = 0;
     double bugged = 10000;
-    double margin = 23;
+    double margin = 25;
 
     Position distance{};
     for (const auto& soldier : m_nearby_soldiers) {
@@ -68,7 +68,7 @@ Position Legionary::move()
     s = distance.length();
     if (s > epsilon && s < bugged)
     {
-        s_force = 1*s + 20/s;
+        s_force = 1*s + 200/s;
         x_force += distance.m_x/s * s_force;
         y_force += distance.m_y/s * s_force;
     }

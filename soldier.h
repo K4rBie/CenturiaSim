@@ -12,7 +12,9 @@
 using flist_PhysicalObject_ptr_cstref =
       const std::forward_list<std::shared_ptr<PhysicalObject>>&;
 
-
+///
+/// \brief Base class for Legionary and Decanus.
+///
 class Soldier : public PhysicalObject
 {
 public:
@@ -28,6 +30,7 @@ public:
     virtual void targetPosition(const Position& new_target);
     virtual void step();
     static int count;
+    static Position formationCenter;
 
 protected:
     virtual Position move();
@@ -40,6 +43,7 @@ protected:
     Position m_target_position {};
     double speed {0.5};
     Position speedvector{0,0};
+
 
 private:
 

@@ -55,7 +55,7 @@ Position Decanus::move()
     double s = 0;
     double s_force = 0;
     double margin = 25;
-    double epsilon = 1;
+    double epsilon = 0.1;
     double bugged = 10000;
 
     Position distance{};
@@ -68,17 +68,25 @@ Position Decanus::move()
                 break;
             }
         }
-        if (isOwn) continue;
+        //if (isOwn) continue;
 
 
         distance = soldier->actualPosition() - actualPosition();
         s = distance.length();
         if (s > epsilon && s < bugged) {
-            if (s > margin)   s_force = 200/s/s; // 5/s;
-            else              s_force = std::min(1000/s/s, 70.); // 100/s/s;
+            if (s > margin)   s_force = 4/s; // 5/s;
+            else              s_force = std::min(800/s/s, 60.); // 100/s/s;
             //s_force = 10000/s/s/s/s;
-            x_force -= distance.m_x/s * s_force;
-            y_force -= distance.m_y/s * s_force;
+
+            if (isOwn && s > margin) {
+                x_force += distance.m_x/s * s_force;
+                y_force += distance.m_y/s * s_force;
+            }
+            else {
+                x_force -= distance.m_x/s * s_force;
+                y_force -= distance.m_y/s * s_force;
+            }
+
         }
     }
     // wnioski
@@ -86,21 +94,17 @@ Position Decanus::move()
     // punkty równowagi musza być ustawione teak, że rogue decanus gdzieś w środku wypchnie mimo to innego decanusa do innego punktu
 
 
-    // TODO jutro:
-    // UI żeby zmieniać formację i podawać nową pozycję myszkiem
-
     for (int i = 0; i < 10; ++i) {
-        // +++++ centuria position WTF ++++++
-        // brakuje center of formation
-        distance = m_available_positions[i].offset  - actualPosition();
+
+        distance = m_available_positions[i].offset + formationCenter - actualPosition();
         s = distance.length();
 
         if (s > epsilon && s < bugged){
-            //if (s > margin){
-                s_force = std::min(0.0004*s + 11000/s/s, 25.);
-            //} else {
-            //    s_force = 0.01*s;
-            //}
+            if (s > 6){
+                s_force = std::min(0.0004*s + 9000/s/s, 25.);
+            } else {
+                s_force = 5*s;
+            }
 
             x_force += distance.m_x/s * s_force;
             y_force += distance.m_y/s * s_force;
@@ -176,24 +180,26 @@ void Decanus::sendTestudoFormationOrders(){
     double x_offset = 50;
     double y_offset = 50;
 
-    Position base_offset = Position(-x_offset, -y_offset);
+    Position base_offset = Position(x_offset, y_offset);
     Position base = m_actual_position - base_offset;
 
     //Position new_target_position;
     Position offset{};
-    unsigned long n = -1;
+    long n = -1;
 
     for (const auto& subordinate : m_subordinates) {
         n++;
 
-        if (n < 3) {
+        if (n < 4) {
             offset = Position{n * x_offset, 0};
-        } else {
+        }
+        else {
             if (n == 5) {
                 n++;
             }
             offset = Position{(n - 4) * x_offset, y_offset};
         }
+
 
         subordinate->targetPosition(base + offset);
     }
@@ -242,16 +248,16 @@ void Decanus::sendSquareFormationOrders(){
 //};
 
 const FormationPosition Decanus::square_formation_positions[10] = {
-    FormationPosition{Position  {-100  , -125}, 180},
-    FormationPosition{Position  {  0   , -125}, 180},
-    FormationPosition{Position  { 100  , -125}, 180},
-    FormationPosition{Position  {-125 , -50  },  90},
-    FormationPosition{Position  { 125 , -50  }, 270},
-    FormationPosition{Position  {-125 ,  50  },  90},
-    FormationPosition{Position  { 125 ,  50  }, 270},
-    FormationPosition{Position  {-100   ,  125},   0},
-    FormationPosition{Position  {  0   ,  125},   0},
-    FormationPosition{Position  { 100   ,  125},   0}
+    FormationPosition{Position  {-160  , -120}, 180},
+    FormationPosition{Position  {  0   , -120}, 180},
+    FormationPosition{Position  { 160  , -120}, 180},
+    FormationPosition{Position  {-160 , -40  },  90},
+    FormationPosition{Position  { 160 , -40  }, 270},
+    FormationPosition{Position  {-160 ,  40  },  90},
+    FormationPosition{Position  { 160 ,  40  }, 270},
+    FormationPosition{Position  {-160   ,  120},   0},
+    FormationPosition{Position  {  0   ,  120},   0},
+    FormationPosition{Position  { 160   ,  120},   0}
 };
 
 //const FormationPosition Decanus::line_formation_positions[10] = {
@@ -273,7 +279,7 @@ const FormationPosition Decanus::line_formation_positions[10] = {
     FormationPosition{Position  { 0,    0}, 180},
     FormationPosition{Position  { 0,  100}, 180},
     FormationPosition{Position  { 0,  200}, 180},
-    FormationPosition{Position  { 0, -200}, 180},
+    FormationPosition{Position  { 0, -250}, 180},
     FormationPosition{Position  { 0, -150}, 180},
     FormationPosition{Position  { 0,  -50}, 180},
     FormationPosition{Position  { 0,   50}, 180},
@@ -281,14 +287,14 @@ const FormationPosition Decanus::line_formation_positions[10] = {
 };
 
 const FormationPosition Decanus::testudo_formation_positions[10] = {
-    FormationPosition{Position{-100, -75}, 180},
-    FormationPosition{Position{ 0 , -75}, 180},
-    FormationPosition{Position{ 100, -75}, 180},
-    FormationPosition{Position{-100, -25},  90},
-    FormationPosition{Position{ 100, -25}, 270},
-    FormationPosition{Position{-100,  25},  90},
-    FormationPosition{Position{ 100,  25}, 270},
-    FormationPosition{Position{-100,  75},   0},
-    FormationPosition{Position{ 0 ,  75},   0},
-    FormationPosition{Position{ 100,  75},   0}
+    FormationPosition{Position{-200, -150}, 180},
+    FormationPosition{Position{ 0 , -150}, 180},
+    FormationPosition{Position{ 200, -150}, 180},
+    FormationPosition{Position{-200, -50},  90},
+    FormationPosition{Position{ 200, -50}, 270},
+    FormationPosition{Position{-200,  50},  90},
+    FormationPosition{Position{ 200,  50}, 270},
+    FormationPosition{Position{-200,  150},   0},
+    FormationPosition{Position{ 0 ,  150},   0},
+    FormationPosition{Position{ 200,  150},   0}
 };

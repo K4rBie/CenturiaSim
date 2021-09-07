@@ -3,7 +3,9 @@
 
 #include "physicalobject.h"
 
-
+///
+/// \brief Tree. Pls no ask.
+///
 class Tree : public PhysicalObject
 {
 public:

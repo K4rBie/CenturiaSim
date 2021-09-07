@@ -1,13 +1,19 @@
 #include "qgraphicsformationbutton.h"
+#include "iostream"
 
 QGraphicsFormationButton::QGraphicsFormationButton(Function function, std::string t_icon_path, QObject *parent)
     : QGraphicsSvgItem(this), m_function(function)
 {
     m_parent = (MainScene*)parent;
+
+    //m_viewport = ((QGraphicsView*)m_parent->parent());
+
     iconRenderer = new QSvgRenderer(QLatin1String(t_icon_path.c_str()));
 
     this->setSharedRenderer(iconRenderer);
     this->setPos(0, 0);
+    setScale(2);
+    setZValue(5);
     //QGraphicsRectItem{0  , 0, 10, 10},
     //this->setRect(0  , 0, 10, 10);
     //this->setBrush(QBrush{Qt::SolidPattern});
@@ -24,11 +30,15 @@ QGraphicsFormationButton::QGraphicsFormationButton(Function function, std::strin
 void QGraphicsFormationButton::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
     switch (m_function) {
-        case(START_SIM): m_parent->startSimulation(100); break;
+        case(START_SIM):
+            m_parent->startSimulation(100);
+            //std::cout << m_viewport->mapToScene(10,10).x();
+            break;
         case(STOP_SIM): m_parent->stopSimulation(); break;
         case(FORM_SQUARE): m_parent->changeCenturiaFormation(Formation::SQUARE); break;
         case(FORM_LINE): m_parent->changeCenturiaFormation(Formation::LINE); break;
         case(FORM_TESTUDO): m_parent->changeCenturiaFormation(Formation::TESTUDO); break;
+        case(NONE): break;
     }
 }
 

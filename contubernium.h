@@ -10,6 +10,9 @@
 #include "legionary.h"
 #include "formationenum.h"
 
+///
+/// \brief Smallest command part of Centuria.
+///
 
 class Contubernium
 {

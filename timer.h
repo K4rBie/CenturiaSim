@@ -3,7 +3,9 @@
 
 #include <thread>
 
-
+///
+/// \brief Universal timer class. Makes the simulation tick.
+///
 class Timer {
     bool clear = false;
 

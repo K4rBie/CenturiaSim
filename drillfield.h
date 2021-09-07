@@ -7,6 +7,9 @@
 #include "boulder.h"
 #include "waterpond.h"
 
+///
+/// \brief Contains the field and obstacles.
+///
 class DrillField
 {
 public:

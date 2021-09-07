@@ -10,7 +10,9 @@
 
 struct FormationPosition;
 
-
+///
+/// \brief A commander of contubernium.
+///
 class Decanus : public Soldier
 {
 public:

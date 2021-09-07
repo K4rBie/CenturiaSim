@@ -10,7 +10,9 @@
 #include "formationenum.h"
 #include "timer.h"
 
-
+///
+/// \brief Main object containing all simulated objects and coordinating them.
+///
 class Simulation
 {
 public:

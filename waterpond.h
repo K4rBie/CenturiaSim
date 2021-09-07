@@ -3,7 +3,9 @@
 
 #include "physicalobject.h"
 
-
+///
+/// \brief Water pond. Pls no ask.
+///
 class WaterPond : public PhysicalObject
 {
 public:

@@ -11,13 +11,10 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     scene = new MainScene(this);
-
+    //view = new QGraphicsView(scene);
 
     ui->graphicsView->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform | QPainter::HighQualityAntialiasing);
     ui->graphicsView->setScene(scene);
-
-    //simulation.start(1000);
-
 }
 
 ///
